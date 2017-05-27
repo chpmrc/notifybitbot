@@ -1,3 +1,6 @@
+/** I don't always put everything in a file
+but when I do it's casue I'm lazy */
+
 const fs = require('fs');
 const Gdax = require('gdax');
 const axios = require('axios');
@@ -33,7 +36,6 @@ function unsubscribe(chatId) {
   commit();
 }
 
-
 bot.onText(/\/below (\d+)/, (msg, match) => {
   const chatId = msg.chat.id;
   console.log(match);
@@ -49,13 +51,11 @@ bot.onText(/\/above (\d+)/, (msg, match) => {
   bot.sendMessage(chatId, `I will warn you if the rate goes above ${threshold}`);
 });
 
-
 bot.onText(/\/stop/, (msg, match) => {
   const chatId = msg.chat.id;
   unsubscribe(chatId);
   bot.sendMessage(chatId, 'Unsubscribed, bye');
 });
-
 
 async function main() {
   let res = null;
