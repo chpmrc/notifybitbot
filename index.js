@@ -6,6 +6,7 @@ const Gdax = require('gdax');
 const axios = require('axios');
 const TelegramBot = require('node-telegram-bot-api');
 
+const apiBase = 'https://api.gdax.com';
 const token = process.env.TELEGRAM_BOT_KEY;
 
 let db = fs.readFileSync('./db', 'utf-8');
