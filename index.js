@@ -29,6 +29,7 @@ function subscribe(chatId, {above = 0, below = Infinity}) {
   const newBelow = (!!db.subscribers[chatId] && below === Infinity)? db.subscribers[chatId].below : below;
   const thresholds = {above: parseFloat(newAbove), below: parseFloat(newBelow)};
   db.subscribers[chatId] = thresholds;
+  console.log(`New subscriber: ${chatId}`);
   commit();
 }
 
@@ -39,7 +40,6 @@ function unsubscribe(chatId) {
 
 bot.onText(/\/below (\d+)/, (msg, match) => {
   const chatId = msg.chat.id;
-  console.log(match);
   const threshold = match[1];
   subscribe(chatId, {below: threshold});
   bot.sendMessage(chatId, `I will warn you if the rate goes below ${threshold}`);
