@@ -1,0 +1,11 @@
+{
+  "name": "bitcoin-notifier",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "dependencies": {
+    "axios": "^0.16.1",
+    "gdax": "^0.4.2",
+    "node-telegram-bot-api": "^0.27.1"
+  }
+}
