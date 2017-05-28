@@ -18,7 +18,7 @@ const bot = new TelegramBot(token, {polling: true});
 try {
   db = JSON.parse(db);
 } catch (e) {
-  db = {subscribers: {}};
+  db = {subscribers: {}, last: null};
 }
 
 const sleep = (ms) => new Promise((resolve, reject) => setTimeout(resolve, ms));
@@ -39,10 +39,16 @@ function unsubscribe(chatId) {
   commit();
 }
 
+function updateLast(last) {
+  db.last = last;
+  commit();
+}
+
 bot.onText(/\/start/, (msg, match) => {
   bot.sendMessage(msg.chat.id, 'This is an EXPERIMENTAL personal project.');
   bot.sendMessage(msg.chat.id, 'Send /below THRESHOLD to be warned when the rate goes below the threshold');
   bot.sendMessage(msg.chat.id, 'Send /above THRESHOLD to be warned when the rate goes above the threshold');
+  bot.sendMessage(msg.chat.id, 'Send yo to get the last rate');
   bot.sendMessage(msg.chat.id, 'Send /stop to unsubscribe');
 });
 
@@ -66,6 +72,12 @@ bot.onText(/\/stop/, (msg, match) => {
   bot.sendMessage(chatId, 'Unsubscribed, bye');
 });
 
+bot.onText(/yo/i, (msg, match) => {
+  const chatId = msg.chat.id;
+  bot.sendMessage(chatId, `Last rate: ${db.last}`);
+});
+
+
 async function main() {
   let res = null;
   while (true) {
@@ -74,6 +86,7 @@ async function main() {
       res = await axios.get(apiBase + '/products/BTC-EUR/stats');
       console.log(res.data);
       const last = res.data.last;
+      updateLast(last);
       for (let subscriber in db.subscribers) {
         const sub = db.subscribers[subscriber];
         if (last > sub.above) {
