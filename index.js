@@ -61,16 +61,22 @@ bot.onText(/\/stop/, (msg, match) => {
 async function main() {
   let res = null;
   while (true) {
-    res = await axios.get(apiBase + '/products/BTC-EUR/stats');
-    console.log(res.data);
-    const last = res.data.last;
-    for (let subscriber in db.subscribers) {
-      const sub = db.subscribers[subscriber];
-      if (sub.above < last && sub.below > last) {
-        bot.sendMessage(subscriber, `You set thresholds above/below ${sub.above}/${sub.below}
-          and the last BTC-EUR rate was ${last}`);
-      } 
-    };
+    
+    try{
+      res = await axios.get(apiBase + '/products/BTC-EUR/stats');
+      console.log(res.data);
+      const last = res.data.last;
+      for (let subscriber in db.subscribers) {
+        const sub = db.subscribers[subscriber];
+        if (sub.above < last && sub.below > last) {
+          bot.sendMessage(subscriber, `You set thresholds above/below ${sub.above}/${sub.below}
+            and the last BTC-EUR rate was ${last}`);
+        } 
+      };  
+    } catch (e) {
+      console.error(e);
+    }
+    
     await sleep(10000);
   }
 }
