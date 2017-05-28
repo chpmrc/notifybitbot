@@ -89,10 +89,10 @@ async function main() {
       updateLast(last);
       for (let subscriber in db.subscribers) {
         const sub = db.subscribers[subscriber];
-        if (last > sub.above) {
+        if (last > sub.above && sub.above !== null) {
           bot.sendMessage(subscriber, `Last BTC-EUR rate was ${last} (above ${sub.above})`);
         }
-        if (last < sub.below) {
+        if (last < sub.below && sub.below !== null) {
           bot.sendMessage(subscriber, `Last BTC-EUR rate was ${last} (below ${sub.below})`);
         }
       };  
