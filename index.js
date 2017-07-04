@@ -50,7 +50,7 @@ bot.onText(/\/start/, (msg, match) => {
   bot.sendMessage(msg.chat.id, 'Send /below THRESHOLD to be warned when the BTC-EUR rate goes below the threshold');
   bot.sendMessage(msg.chat.id, 'Send /above THRESHOLD to be warned when the BTC-EUR rate goes above the threshold');
   bot.sendMessage(msg.chat.id, 'Send btc to get the last BTC-EUR rate');
-  bot.sendMessage(msg.chat.id, 'Send btc to get the last ETH-EUR rate');
+  bot.sendMessage(msg.chat.id, 'Send eth to get the last ETH-EUR rate');
   bot.sendMessage(msg.chat.id, 'Send /stop to unsubscribe');
 });
 
